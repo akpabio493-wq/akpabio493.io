@@ -4,13 +4,21 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Feed from "./pages/Feed";
+import Upload from "./pages/Upload";
+import Profile from "./pages/Profile";
+import PublicProfile from "./pages/PublicProfile";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
+      <Route path={"/login"} component={Login} />
+      <Route path={"/"} component={Feed} />
+      <Route path={"/upload"} component={Upload} />
+      <Route path={"/profile"} component={Profile} />
+      <Route path={"/@:username"} component={PublicProfile} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -27,7 +35,7 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider
-        defaultTheme="light"
+        defaultTheme="dark"
         // switchable
       >
         <TooltipProvider>
