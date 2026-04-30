@@ -17,7 +17,7 @@ export default function FeedPage() {
   const mockVideos = [
     {
       id: 1,
-      videoUrl: "/manus-storage/test-video_43d73927.mp4",
+      videoUrl: "/manus-storage/test-video_f9e08d3c.mp4",
       creatorName: "Creator One",
       creatorId: 101,
       caption: "Check out this amazing video! 🎬",
@@ -27,7 +27,7 @@ export default function FeedPage() {
     },
     {
       id: 2,
-      videoUrl: "/manus-storage/test-video_43d73927.mp4",
+      videoUrl: "/manus-storage/test-video_f9e08d3c.mp4",
       creatorName: "Creator Two",
       creatorId: 102,
       caption: "Beautiful moments captured 📸",
