@@ -12,15 +12,25 @@ export function VideoPlayer({ videoUrl, thumbnailUrl, onIntersect }: VideoPlayer
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Intersection Observer for auto-play
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          videoRef.current?.play();
-          setIsPlaying(true);
-          onIntersect?.(true);
+          const playPromise = videoRef.current?.play();
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                setIsPlaying(true);
+                onIntersect?.(true);
+              })
+              .catch((err) => {
+                console.error("Play error:", err);
+                setError(err.message);
+              });
+          }
         } else {
           videoRef.current?.pause();
           setIsPlaying(false);
@@ -40,6 +50,16 @@ export function VideoPlayer({ videoUrl, thumbnailUrl, onIntersect }: VideoPlayer
       }
     };
   }, [onIntersect]);
+
+  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement>) => {
+    const video = e.currentTarget;
+    console.error("Video error:", video.error);
+    setError(`Video error: ${video.error?.message || 'Unknown error'}`);
+  };
+
+  const handleCanPlay = () => {
+    setError(null);
+  };
 
   const toggleMute = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -61,8 +81,26 @@ export function VideoPlayer({ videoUrl, thumbnailUrl, onIntersect }: VideoPlayer
         muted={isMuted}
         loop
         playsInline
+        crossOrigin="anonymous"
+        onError={handleVideoError}
+        onCanPlay={handleCanPlay}
         className="w-full h-full object-cover"
       />
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/80 text-white text-center p-4">
+          <div>
+            <p className="text-sm mb-2">Video failed to load</p>
+            <p className="text-xs text-gray-400">{error}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Error message */}
+      {error && (
+        <div className="absolute top-4 left-4 z-20 bg-red-500/80 text-white text-xs px-3 py-2 rounded">
+          Error loading video
+        </div>
+      )}
 
       {/* Mute Toggle Button */}
       <button

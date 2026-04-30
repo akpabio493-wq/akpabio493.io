@@ -13,11 +13,11 @@ export default function FeedPage() {
   const [selectedVideoId, setSelectedVideoId] = useState<number | null>(null);
   const [isCommentSheetOpen, setIsCommentSheetOpen] = useState(false);
 
-  // Mock videos data
+  // Mock videos data with working public video URLs
   const mockVideos = [
     {
       id: 1,
-      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-library/sample/BigBuckBunny.mp4",
+      videoUrl: "/manus-storage/test-video_43d73927.mp4",
       creatorName: "Creator One",
       creatorId: 101,
       caption: "Check out this amazing video! 🎬",
@@ -27,7 +27,7 @@ export default function FeedPage() {
     },
     {
       id: 2,
-      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-library/sample/ElephantsDream.mp4",
+      videoUrl: "/manus-storage/test-video_43d73927.mp4",
       creatorName: "Creator Two",
       creatorId: 102,
       caption: "Beautiful moments captured 📸",
